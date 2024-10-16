@@ -24,25 +24,25 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-import { LoginPage } from "../pageObject/loginPage";
+import { LoginPage } from "../pageObject/login/login";
 const loginPage = new LoginPage();
 
-Cypress.Commands.add('addToCart', (selector) => {
-    return cy.get(`[data-test=${selector}]`).click();
+Cypress.Commands.add("addToCartItem", (selector) => {
+   return cy.get(`[data-test=${selector}]`);
 });
-Cypress.Commands.add('logIn', (username, password) => {
-    loginPage.enterUsername(username);
-    loginPage.enterPassword(password);
-    loginPage.clickSubmit();
+Cypress.Commands.add("logIn", (username = "standard_user", password = "secret_sauce") => {
+   loginPage.enterUsername(username);
+   loginPage.enterPassword(password);
+   loginPage.clickSubmit();
 });
 
-Cypress.Commands.add('verifyTotal', (item1, item2) => {
-    const subTotal = item1 + item2;
-    const taxRate = 0.08;
-    const taxAmount = subTotal * taxRate;
-    const expectedTotal = subTotal + taxAmount;
+Cypress.Commands.add("verifyTotal", (item1, item2) => {
+   const subTotal = item1 + item2;
+   const taxRate = 0.08;
+   const taxAmount = subTotal * taxRate;
+   const expectedTotal = subTotal + taxAmount;
 
-    cy.get('[data-test="subtotal-label"]').should('contain', subTotal.toFixed(2));
-    cy.get('[data-test="tax-label"]').should('contain', taxAmount.toFixed(2));
-    cy.get('[data-test="total-label"]').should('contain', expectedTotal.toFixed(2));
+   cy.get('[data-test="subtotal-label"]').should("contain", subTotal.toFixed(2));
+   cy.get('[data-test="tax-label"]').should("contain", taxAmount.toFixed(2));
+   cy.get('[data-test="total-label"]').should("contain", expectedTotal.toFixed(2));
 });
